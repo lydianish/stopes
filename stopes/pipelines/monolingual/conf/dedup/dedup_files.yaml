@@ -1,0 +1,26 @@
+defaults:
+  - _self_
+
+# update this if you are running local
+tmp_dir: /scratch/lnishimw/tmp/slurm
+
+num_cpu: 20
+mem_gb: 100
+timeout_min: 3600
+num_files: 10
+
+glob: ???
+output_file: ???
+merge_dir: ???
+
+# field_def is the offset for the 'sort' command (1-indexed)
+# (the 'sort' command will start sorting at this field)
+# columns of the processed file: corpus, offset_start, line_id, line_hash, prob_lang, clean sentence
+field_def: 6 # field number for the 'clean sentence' column
+
+resort_files: false
+process_locally: false
+
+wandb:
+  project: rosonar-monolingual
+  entity: lydianish

@@ -285,5 +285,18 @@ def get_split_algo(lang: str, split_algo: str) -> tp.Callable[[str], tp.Iterable
         from pythainlp import sent_tokenize
 
         return sent_tokenize  # type: ignore[no-any-return]
+    
+    elif split_algo.startswith("sat"):
+        logger.info(f" - Segment-any-Text sentence splitter ({split_algo}) applied to '{lang}'")
+        import torch
+        from wtpsplit import SaT
+        if split_algo == "sat":
+            split_algo = "sat-12l-sm"
+        try:
+            sat_model = SaT(split_algo)
+        except Exception as e:
+            raise ValueError(f"Unknown SaT model {split_algo}") from e
+        sat_model.half().to("cuda" if torch.cuda.is_available() else "cpu")
+        return sat_model.split
 
     raise ValueError(f"Unknown splitting algorithm {split_algo}")

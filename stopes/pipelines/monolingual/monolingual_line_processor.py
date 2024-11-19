@@ -67,6 +67,7 @@ class LIDConfig:
     thresholds_file: tp.Optional[str] = None
     probability_threshold: float = 0.5
     lang_thresholds: tp.Dict[str, int] = field(default_factory=lambda: {})
+    lower: bool = False
 
 
 @dataclass
@@ -238,6 +239,7 @@ class FilterLID:
         self.lid_threshold = getattr(
             lid_config.lang_thresholds, lang, lid_config.probability_threshold
         )
+        self.lid_lower = getattr(lid_config, "lower", False)
         if hasattr(lid_config, "model_file") and lid_config.model_file is not None:
             thresholds_file = getattr(lid_config, "thresholds_file", None)
             self.lid_predictor = get_lid_predictor(
@@ -294,7 +296,11 @@ class FilterLID:
             return FilterLogic.CONTINUE, None, None
 
         # lid
-        pred_lang, prob_lang = self.lid_predictor(prediction_clean)
+        if self.lid_lower:
+            pred_lang, prob_lang = self.lid_predictor(prediction_clean.lower())
+        else:
+            pred_lang, prob_lang = self.lid_predictor(prediction_clean)
+
         if prob_lang < self.lid_threshold:
             result_summary.lid_filtered += 1
             return FilterLogic.DISCARD, pred_lang, prob_lang
@@ -353,7 +359,7 @@ class SplitNormalizeFilterLID(MultiprocLineProcessorCallback):
 
         self.skip_dedup = skip_dedup
 
-        self.expected_lid_label = f"__label__{self.lang}"
+        self.expected_lid_label = f"__label__{self.lang}" if '_' in self.lang else f"__label__{self.lang}_{lang_script}"
         self.lang_script = lang_script
         # find out the corpus from basename: e.g. cc200xl_v1.ewe.xz or cc200xl_v1.kat.split.ca
         input_parts = os.path.basename(input_file).split(".")

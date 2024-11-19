@@ -31,7 +31,7 @@ classifiers=[
 [project.optional-dependencies]
   mono = [
     "xxhash",
-    "fasttext",
+    # "fasttext",
     "sentence_splitter",
     # "kenlm",
     "sacremoses",
