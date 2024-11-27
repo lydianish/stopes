@@ -9,4 +9,4 @@ max_jobarray_jobs: 1000
 throttle:
   shared_name: /launcher_${oc.env:USER}
   limit: 119
-  timeout: null
+  timeout: 300

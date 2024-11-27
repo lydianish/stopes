@@ -213,6 +213,7 @@ class SentenceSplitClean:
         self.replace_nonprint = remove_regex.get_non_printing_char_replacer(" ")
 
     def __call__(self, line):
+        assert line != "\n", "empty line"
         sentence_splits = self.splitter(line)
         line_hash = xxhash.xxh3_64_intdigest(line)
 
@@ -415,6 +416,8 @@ class SplitNormalizeFilterLID(MultiprocLineProcessorCallback):
         for (line_id, line) in lines_with_number:
             (real_line, _metadata) = extract_metadata(line, self.corpus)
             # we throw away metadata, use corpus+offset+linenumber to rebuild it
+            if line.strip() == "":
+                continue
             self.result_summary.paragraphs += 1
 
             for line_hash, sent, clean in self.sentence_split_clean(real_line):

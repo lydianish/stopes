@@ -19,7 +19,7 @@ split_algo: sat # Segment any Text (Frohmann et al., 2024)
 dist_tmp_dir: /scratch/lnishimw/tmp/slurm
 # update this if you are running local
 local_tmp_dir: /scratch/lnishimw/tmp/slurm
-max_shard_size: 4G
+max_shard_size: 1G
 
 filter:
   min_chars: 10
@@ -71,7 +71,7 @@ preproces_requirements:
   tasks_per_node: 1
   gpus_per_node: 0
   cpus_per_task: 20
-  timeout_min: 7200
+  timeout_min: 1440
 
 # template for a glob search, corpus might be empty if corpus_filter is empty
 input_file_glob_template: $lang/$corpus*.$lang.xz
