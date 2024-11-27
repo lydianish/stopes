@@ -416,8 +416,6 @@ class SplitNormalizeFilterLID(MultiprocLineProcessorCallback):
         for (line_id, line) in lines_with_number:
             (real_line, _metadata) = extract_metadata(line, self.corpus)
             # we throw away metadata, use corpus+offset+linenumber to rebuild it
-            if line.strip() == "":
-                continue
             self.result_summary.paragraphs += 1
 
             for line_hash, sent, clean in self.sentence_split_clean(real_line):
