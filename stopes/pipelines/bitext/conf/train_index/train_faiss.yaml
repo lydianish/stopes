@@ -9,3 +9,4 @@ config:
   use_gpu: True
   embedding_dimensions: 1024
   fp16: True
+  constraint: ib2 # (InfiniBand support)

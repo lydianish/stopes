@@ -16,3 +16,4 @@ config:
 
   embedding_dimensions: 1024
   normalize_query_embeddings: True
+  constraint: volta32gb

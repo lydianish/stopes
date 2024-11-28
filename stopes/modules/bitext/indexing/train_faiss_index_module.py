@@ -30,6 +30,7 @@ class TrainFAISSIndexConfig:
     embedding_dimensions: int = 1024
     use_gpu: bool = True
     fp16: bool = True
+    constraint: str = "ib2"
 
 
 class TrainFAISSIndexModule(StopesModule):
@@ -49,7 +50,7 @@ class TrainFAISSIndexModule(StopesModule):
             gpus_per_node=1 if self.config.use_gpu else 0,
             cpus_per_task=self.config.num_cpu,
             timeout_min=1000,
-            constraint="ib2",
+            constraint=self.config.constraint,
         )
 
     def run(

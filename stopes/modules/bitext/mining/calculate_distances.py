@@ -49,6 +49,7 @@ class CalculateDistancesConfig:
     normalize_query_embeddings: bool = True
     fp16: bool = False
     batch_size: int = 8192
+    constraint: str = "volta32gb"
 
 
 class CalculateDistancesModule(StopesModule):
@@ -85,7 +86,7 @@ class CalculateDistancesModule(StopesModule):
             gpus_per_node=self.num_gpu,
             cpus_per_task=10,
             timeout_min=500,
-            constraint="volta32gb",
+            constraint=self.config.constraint,
         )
 
     def array(self):

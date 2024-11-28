@@ -1,0 +1,14 @@
+# Provides info about the data. A lot of this is used to generate nice output
+# file names.
+data_version: v1
+iteration: 1
+data_shard_dir: ???
+shard_type: text
+bname: oscar-cc-2024-33
+# shard_glob tells us where to find the language files `{lang}` will be
+# replaced by the language code from src and tgt
+shard_glob: ${.data_shard_dir}/{lang}.xz
+# we need to know the number of lines in each file, this is computed in
+# prepare.sh and this tells the pipeline where to find the files with this
+# info
+nl_file_template: "{lang}.nl"

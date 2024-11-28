@@ -4,6 +4,7 @@
 hydra-core >= 1.2.0
 submitit
 tqdm
+librosa
 
 # for the global mining logic
 numpy
