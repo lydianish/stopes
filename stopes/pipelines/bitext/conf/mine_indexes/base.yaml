@@ -28,3 +28,4 @@ config:
     num_probe: 128
     gpu_type: fp16-shard
     mine_threshold: 1.06
+    num_cpu: 40

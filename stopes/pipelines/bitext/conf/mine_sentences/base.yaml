@@ -13,3 +13,4 @@ config:
     score_max: 1.25
     dedup_bitexts: True
     compress_output: True
+    num_cpu: 40

@@ -11,7 +11,7 @@ import typing as tp
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from omegaconf import MISSING
+from omegaconf import MISSING, OmegaConf
 
 from stopes.core.stopes_module import Requirements, StopesModule
 from stopes.core.utils import ensure_dir, path_append_suffix
@@ -40,6 +40,7 @@ class MineBitextSentencesConfig:
     score_max: float = 1.25
     dedup_bitexts: bool = True
     compress_output: bool = True
+    num_cpu: int = 40
     requirements: Requirements = field(
         default=Requirements(
             nodes=1,
@@ -55,6 +56,10 @@ class MineBitextSentencesModule(StopesModule):
     def __init__(self, config):
         super().__init__(config, MineBitextSentencesConfig)
         ensure_dir(self.config.output_dir)
+        # override the number of cpus per task
+        OmegaConf.set_readonly(self.config, False)
+        self.config.requirements.cpus_per_task = self.config.num_cpu
+        OmegaConf.set_readonly(self.config, True)
 
     def requirements(self):
         return self.config.requirements

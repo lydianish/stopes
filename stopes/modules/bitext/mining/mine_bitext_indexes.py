@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 import numpy as np
-from omegaconf import MISSING
+from omegaconf import MISSING, OmegaConf
 
 from stopes.core.stopes_module import Requirements, StopesModule
 from stopes.core.utils import ensure_dir
@@ -56,6 +56,7 @@ class MineBitextConfig:
     num_probe: int = 128
     gpu_type: str = "fp16-shard"
     mine_threshold: float = 1.06
+    num_cpu: int = 40
     requirements: Requirements = field(
         default=Requirements(
             nodes=1,
@@ -74,6 +75,10 @@ class MineBitextIndexesModule(StopesModule):
         assert MineType.has_value(
             self.config.mine_type
         ), f"mine type: {self.config.mine_type} not supported"
+        # override the number of cpus per task
+        OmegaConf.set_readonly(self.config, False)
+        self.config.requirements.cpus_per_task = self.config.num_cpu
+        OmegaConf.set_readonly(self.config, True)
 
     def requirements(self):
         return self.config.requirements
