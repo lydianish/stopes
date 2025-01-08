@@ -1,0 +1,7 @@
+defaults:
+  - encode@_here_
+  - encoder: hf_encoder
+
+encoder:
+  _name: rolaser2
+  model_name_or_path: lydianish/RoLASER-v2

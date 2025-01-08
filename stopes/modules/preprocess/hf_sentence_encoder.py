@@ -32,6 +32,7 @@ class HFTextEncoder(EncodeToNPY):
         outfile_postfix: str = "",
         normalize: bool = False,
         fp16: bool = False,
+        model_name_or_path: str = "",
         # ignored
         spm_vocab: str = "",
         spm_model: str = "",
@@ -45,7 +46,10 @@ class HFTextEncoder(EncodeToNPY):
             normalize=normalize,
             fp16=fp16,
         )
-        self.model = SentenceTransformer(_name)
+        if model_name_or_path:
+            self.model = SentenceTransformer(model_name_or_path)
+        else:
+            self.model = SentenceTransformer(_name)
 
     def name_output_file(self) -> str:
         shard_idx = extract_shard_id(self.input_file, default=self.input_file_idx)

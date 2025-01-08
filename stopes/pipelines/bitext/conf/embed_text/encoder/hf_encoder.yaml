@@ -2,6 +2,7 @@ _target_: stopes.modules.preprocess.hf_sentence_encoder.HFTextEncoder
 
 # HuggingFace name of the model
 _name: ???
+model_name_or_path: '' # model name or path if different from the (chosen) model name 
 normalize: False
 fp16: False
 
@@ -9,3 +10,4 @@ fp16: False
 # we just set it to nothing
 spm_model: ''
 spm_vocab: ''
+
