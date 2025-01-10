@@ -13,21 +13,22 @@ split_language_equivalences_filename: language_equivalences.tsv
 # update to true if you wish to skip dedup of monolingual input
 skip_dedup: false
 
-split_algo: default
+split_algo: sat # Segment any Text (Frohmann et al., 2024)
+# defaults to the 12-layer finetuned model (sat-12l-sm)
 
 dist_tmp_dir: /scratch/lnishimw/tmp/slurm
 # update this if you are running local
 local_tmp_dir: /scratch/lnishimw/tmp/slurm
-max_shard_size: 1G
+max_shard_size: 10M
 
 filter:
   min_chars: 10
   max_chars: 500
-  max_punct_ratio: 0.2
-  max_number_ratio: 0.2
+  max_punct_ratio: 0.25
+  max_number_ratio: 0.25
   min_space_ratio: 0.05
   max_space_ratio: 0.3
-  max_emoji_ratio: 0.1
+  max_emoji_ratio: 0.15
   script_threshold: 0.5
   max_repeated_char: 20
   tab_index: 0
@@ -57,17 +58,20 @@ lid:
     war: 0.4
     yor: 0.4
     diq: 0.4
+    eng: 0.4
+    fra: 0.3
 
   label_unk: __label__unk
+  lower: true
 
 preprocess_buffer_size: 5_000
 preproces_requirements:
   nodes: 1
-  mem_gb: 100
+  mem_gb: 128
   tasks_per_node: 1
   gpus_per_node: 0
-  cpus_per_task: 20
-  timeout_min: 7200
+  cpus_per_task: 40
+  timeout_min: 10080
 
 # template for a glob search, corpus might be empty if corpus_filter is empty
 input_file_glob_template: $lang/$corpus*.$lang.xz
